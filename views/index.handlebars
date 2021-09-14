@@ -1,0 +1,34 @@
+<div class="container btn-container">
+    <a href="/" type="button" class="btn active btn-outline-primary">Home</a>
+    <a href="add" type="button" class="ms-5 btn btn-outline-primary">Add new</a>
+</div>
+
+<div class="flex">
+    <div class="container flex-item">
+        <h4>Pets:</h4>
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Species</th>
+                <th scope="col">Age</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            {{#each pets}}
+                <tr>
+                    <th scope="row">{{@index}}</th>
+                    <td>{{this.name}}</td>
+                    <td>{{this.species}}</td>
+                    <td>{{this.age}}</td>
+                    <td><a href="update?id={{this._id}}"><i class="fas fa-cog icon"></i></a></td>
+                    <td><a href="delete?id={{this._id}}"><i class="fas fa-trash-alt icon"></i></a></td>
+                </tr>
+            {{/each}}
+            </tbody>
+        </table>
+    </div>
+</div>
