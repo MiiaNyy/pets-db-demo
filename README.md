@@ -1,4 +1,4 @@
-#MongoDB and Express exercise
+# MongoDB and Express exercise
 This was a small project where I practice Node.js Express http requests and MongoDB database.
 
 In the site user can browse, add new, update or delete database documents. 
