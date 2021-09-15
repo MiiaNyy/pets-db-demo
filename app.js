@@ -1,9 +1,12 @@
 const express = require("express");
-const path = require("path");
 const client = require("./db");
+
 const exphbs = require("express-handlebars");
 const {ObjectId} = require("mongodb");
-const methodOverride = require('method-override')
+const methodOverride = require('method-override');
+
+const redirectToHomepage = require("./helpers/requestHelpers").redirectToHomepage;
+const renderPageFromHandlebars = require("./helpers/requestHelpers").renderPageFromHandlebars;
 
 const db = client.db();
 const app = express();
@@ -12,7 +15,7 @@ const app = express();
 app.engine('handlebars', exphbs({defaultLayout: "main"}));
 app.set('view engine', 'handlebars');
 
-// override with POST having ?_method=DELETE
+// override with POST having ?_method=DELETE and ?_method=PUT
 app.use(methodOverride('_method'));
 
 app.use(express.json()); // Allow us to use raw json data
@@ -50,23 +53,33 @@ app.get("/delete", (req, res)=>{
     }).then(r=>console.log('success'))
 })
 
+// Browse db documents in json form
+app.get("/api/pets", async (req, res)=>{
+    try {
+        const pets = await db.collection("pets").find().toArray();
+        res.json(pets);
+    } catch (e) {
+        console.log('Error occurred', e);
+    }
+})
 
 app.post("/add", async (req, res)=>{
-    renderPageFromHandlebars(req, res, async ()=>{
+    try {
         const name = req.body.name;
         const species = req.body.species;
         const age = req.body.age;
         if ( age && species && name ) {
             await db.collection("pets").insertOne({name, species, age});
+            redirectToHomepage(req, res);
+            console.log('Successful document update happened')
         }
-    }).then(()=>{
-        redirectToHomepage(req, res)
-        console.log('Successful document add happened')
-    })
+    } catch (err) {
+        console.log('Error occurred', err)
+    }
 })
 
 app.put("/update", async (req, res)=>{
-    renderPageFromHandlebars(req, res, async ()=>{
+    try {
         const docFound = await db.collection("pets").find({_id: ObjectId(req.query.id)});
         if ( docFound ) {
             await db.collection("pets").updateOne({_id: ObjectId(req.query.id)}, {
@@ -77,10 +90,9 @@ app.put("/update", async (req, res)=>{
                 }
             });
         }
-    }).then(()=>{
-        redirectToHomepage(req, res);
-        console.log('Successful document update happened')
-    })
+    } catch (err) {
+        console.log('Error occurred', err)
+    }
 })
 
 app.delete("/delete", async (req, res)=>{
@@ -90,20 +102,6 @@ app.delete("/delete", async (req, res)=>{
     }).then(()=>console.log('Successful delete happened'))
 })
 
-
-async function renderPageFromHandlebars(req, res, callback) {
-    try {
-        const pets = await db.collection("pets").find().toArray();
-        callback(pets)
-    } catch (err) {
-        console.log('Error occurred:', err)
-    }
-}
-
-function redirectToHomepage(req, res) {
-    req.method = 'GET';
-    res.redirect('/');
-}
 
 module.exports = app;
 
