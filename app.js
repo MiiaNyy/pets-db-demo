@@ -70,8 +70,8 @@ app.post("/add", async (req, res)=>{
         const age = req.body.age;
         if ( age && species && name ) {
             await db.collection("pets").insertOne({name, species, age});
-            redirectToHomepage(req, res);
-            console.log('Successful document update happened')
+            req.method = 'GET';
+            res.redirect('/add');
         }
     } catch (err) {
         console.log('Error occurred', err)
@@ -89,6 +89,7 @@ app.put("/update", async (req, res)=>{
                     age: req.body.age
                 }
             });
+            redirectToHomepage(req,res);
         }
     } catch (err) {
         console.log('Error occurred', err)
