@@ -10,6 +10,8 @@ In the site user can browse, add new, update or delete database documents.
 - How to listen different kinds of requests and send responses
 - How to create url parameters and how to access them using Express
 - How to use Handlebars and create dynamic pages using Express
+- How to use Heroku CLI and how to deploy project in Heroku
+    - How to add environmental variables in project settings
 
 
  ### [Live version in Heroku](https://secret-wave-53450.herokuapp.com/)
