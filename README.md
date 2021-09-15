@@ -12,4 +12,4 @@ In the site user can browse, add new, update or delete database documents.
 - How to use Handlebars and create dynamic pages using Express
 
 
- [Live version in Heroku]("https://secret-wave-53450.herokuapp.com/")
+ ### [Live version in Heroku](https://secret-wave-53450.herokuapp.com/)
