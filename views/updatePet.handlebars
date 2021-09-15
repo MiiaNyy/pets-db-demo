@@ -1,61 +1,60 @@
-<div class="container btn-container">
+<div class="container text-center">
     <a href="/" type="button" class="btn btn-outline-primary">Home</a>
     <a href="add" type="button" class="ms-5 btn btn-outline-primary">Add new</a>
 </div>
 
-<div class="flex">
 
-    <div class="flex-item-1">
+<div class="form">
 
-        <form method="POST" action="/update?id={{updatedPet._id}}&_method=PUT" class="mb-4">
-        <h5>Update pet</h5>
-        <div class="form-group">
-            <label for="name">Name</label>
-            <input type="text" name="name" id="name" value="{{updatedPet.name}}" class="form-control">
+    <form method="POST" action="/update?id={{updatedPet._id}}&_method=PUT" class="mb-4">
+    <h5>Update pet</h5>
+    <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" name="name" id="name" value="{{updatedPet.name}}" class="form-control">
 
-        </div>
-        <div class="form-group">
-            <label for="species">Species</label>
-            <input value="{{updatedPet.species}}" type="text" name="species" id="species" class="form-control">
-        </div>
-        <div class="form-group">
-            <label for="age">Age</label>
-            <input value="{{updatedPet.age}}" type="number" name="age" id="age" class="form-control">
-        </div>
-
-        <label for="id"></label>
-        <input value="{{updatedPet.id}}" hidden type="text" name="id" id="id">
-
-        <input type="submit" value="Update" class="btn btn-success btn-block mt-4">
-        </form>
+    </div>
+    <div class="form-group">
+        <label for="species">Species</label>
+        <input value="{{updatedPet.species}}" type="text" name="species" id="species" class="form-control">
+    </div>
+    <div class="form-group">
+        <label for="age">Age</label>
+        <input value="{{updatedPet.age}}" type="number" name="age" id="age" class="form-control">
     </div>
 
-    <div class="container flex-item">
-        <h4>Pets:</h4>
-        <table class="table">
-            <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Name</th>
-                <th scope="col">Species</th>
-                <th scope="col">Age</th>
-                <th scope="col"></th>
-                <th scope="col"></th>
-            </tr>
-            </thead>
-            <tbody>
-            {{#each pets}}
-                <tr>
-                    <th scope="row">{{@index}}</th>
-                    <td>{{this.name}}</td>
-                    <td>{{this.species}}</td>
-                    <td>{{this.age}}</td>
-                    <td><a href="update?id={{this._id}}"><i class="fas fa-cog icon"></i></a></td>
-                    <td><a href="delete?id={{this._id}}"><i class="fas fa-trash-alt icon"></i></a></td>
-                </tr>
-            {{/each}}
-            </tbody>
-        </table>
-    </div>
+    <label for="id"></label>
+    <input value="{{updatedPet.id}}" hidden type="text" name="id" id="id">
+
+    <input type="submit" value="Update" class="btn btn-success btn-block mt-4">
+    </form>
 </div>
+
+<div class="container">
+    <h4>Pets:</h4>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Species</th>
+            <th scope="col">Age</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        {{#each pets}}
+            <tr>
+                <th scope="row">{{@index}}</th>
+                <td>{{this.name}}</td>
+                <td>{{this.species}}</td>
+                <td>{{this.age}}</td>
+                <td><a href="update?id={{this._id}}"><i class="fas fa-cog icon"></i></a></td>
+                <td><a href="delete?id={{this._id}}"><i class="fas fa-trash-alt icon"></i></a></td>
+            </tr>
+        {{/each}}
+        </tbody>
+    </table>
+</div>
+
 

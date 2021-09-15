@@ -14,14 +14,14 @@
     <title>Pets app</title>
 </head>
 <body>
-    <div class="container mt-4">
+    <div class="container mt-4 main">
         <!-- Where we want to output the rest of the template/views use triple curly braces -->
         <h1 class="text-center">Pets database</h1>
         <h5 class="text-center">Browse, add new, update or delete pets from MongoDB database here</h5>
 
         {{{body}}}
 
-        <div class="container btn-container">
+        <div style="text-align: right" class="container">
             <a href="/api/pets" type="button" class="link-primary">Browse database as json data</a>
         </div>
     </div>

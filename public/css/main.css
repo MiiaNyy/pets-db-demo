@@ -29,30 +29,27 @@ h1, h2, h3, h4, h5, h6, p {
     margin-top: 0;
 }
 
+.main {
+    padding: 1em;
+    border-radius: .25rem;
+    box-shadow: rgba(0, 0, 0, 0.16) 0 1px 4px;
+}
+
 .container {
     width: 90%;
     max-width: 900px;
     margin: 2em auto;
+
 }
 
-.btn-container {
-    text-align: center;
-}
 
-.container-del {
-    max-width: 400px;
-    text-align: center;
-}
-
-.flex {
-    display: flex;
-    align-items: center;
-    gap: 50px;
-    padding: 1em;
-}
-
-.flex-item-1 {
+.form {
     width: 40%;
+    margin: 0 auto;
+}
+
+.form form h5 {
+    text-align: center;
 }
 
 .icon {
