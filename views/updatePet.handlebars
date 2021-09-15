@@ -6,22 +6,27 @@
 <div class="flex">
 
     <div class="flex-item-1">
-        <form method="POST" class="mb-4">
-            <h5>Update pet</h5>
-            <div class="form-group">
-                <label for="name">Name</label>
-                <input type="text" name="name" id="name" value="{{updatedPet.name}}" class="form-control">
 
-            </div>
-            <div class="form-group">
-                <label for="species">Species</label>
-                <input value="{{updatedPet.species}}" type="text" name="species" id="species" class="form-control">
-            </div>
-            <div class="form-group">
-                <label for="age">Age</label>
-                <input value="{{updatedPet.age}}" type="number" name="age" id="age" class="form-control">
-            </div>
-            <input type="submit" value="Update" class="btn btn-success btn-block mt-4">
+        <form method="POST" action="/update?id={{updatedPet._id}}&_method=PUT" class="mb-4">
+        <h5>Update pet</h5>
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" name="name" id="name" value="{{updatedPet.name}}" class="form-control">
+
+        </div>
+        <div class="form-group">
+            <label for="species">Species</label>
+            <input value="{{updatedPet.species}}" type="text" name="species" id="species" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="age">Age</label>
+            <input value="{{updatedPet.age}}" type="number" name="age" id="age" class="form-control">
+        </div>
+
+        <label for="id"></label>
+        <input value="{{updatedPet.id}}" hidden type="text" name="id" id="id">
+
+        <input type="submit" value="Update" class="btn btn-success btn-block mt-4">
         </form>
     </div>
 

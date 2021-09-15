@@ -37,7 +37,6 @@ h1, h2, h3, h4, h5, h6, p {
 
 .btn-container {
     text-align: center;
-    border: 2px solid pink;
 }
 
 .container-del {
@@ -50,7 +49,6 @@ h1, h2, h3, h4, h5, h6, p {
     align-items: center;
     gap: 50px;
     padding: 1em;
-    border: 2px solid pink;
 }
 
 .flex-item-1 {

@@ -20,67 +20,90 @@ app.use(express.urlencoded({extended: false})) // Allows us to use form submissi
 
 app.use(express.static(__dirname + '/public'));
 
-app.get("/", async (req, res)=>{
-    try {
-        const pets = await db.collection("pets").find().toArray();
-        if ( pets.length ) {
-            res.render("index", {pets})
-        } else {
-            res.json("You do not currently have any animals in your pets collection.")
-        }
-    } catch (err) {
-        console.log('Error occurred:', err)
-    }
+app.get("/", (req, res)=>{
+    renderPageFromHandlebars(req, res, (pets)=>{
+        res.render("index", {pets})
+    }).then(r=>console.log('success'))
 })
 
-app.get("/add", async (req, res)=>{
-    try {
-        const pets = await db.collection("pets").find().toArray();
-        if ( pets.length ) {
-            res.render("add", {pets})
-        } else {
-            res.json("You do not currently have any animals in your pets collection.")
-        }
-    } catch (err) {
-        console.log('Error occurred:', err)
-    }
+app.get("/add", (req, res)=>{
+    renderPageFromHandlebars(req, res, (pets)=>{
+        res.render("addPet", {pets})
+    }).then(r=>console.log('success'))
 })
 
-
-app.get("/update", async (req, res)=>{
-    try {
-        const pets = await db.collection("pets").find().toArray();
+app.get("/update", (req, res)=>{
+    renderPageFromHandlebars(req, res, async (pets)=>{
         const updatedPet = await db.collection("pets").findOne(ObjectId(req.query.id));
-        if ( pets.length && updatedPet ) {
-            res.render("update", {pets, updatedPet})
-        } else {
-            res.json("You do not currently have any animals in your pets collection.")
+        if ( updatedPet ) {
+            res.render("updatePet", {pets, updatedPet})
         }
-    } catch (err) {
-        console.log('Error occurred:', err)
-    }
+    }).then(r=>console.log('success'))
 })
 
-app.get("/delete", async (req, res)=>{
-    try {
-        const pets = await db.collection("pets").find().toArray();
+app.get("/delete", (req, res)=>{
+    renderPageFromHandlebars(req, res, async (pets)=>{
         const deletePet = await db.collection("pets").findOne(ObjectId(req.query.id));
-        if ( pets.length && deletePet ) {
-            res.render("delete", {pets, deletePet})
-        } else {
-            res.json("You do not currently have any animals in your pets collection.")
+        if ( deletePet ) {
+            res.render("deletePet", {pets, deletePet})
         }
-    } catch (err) {
-        console.log('Error occurred:', err)
-    }
+    }).then(r=>console.log('success'))
+})
+
+
+app.post("/add", async (req, res)=>{
+    renderPageFromHandlebars(req, res, async ()=>{
+        const name = req.body.name;
+        const species = req.body.species;
+        const age = req.body.age;
+        if ( age && species && name ) {
+            await db.collection("pets").insertOne({name, species, age});
+        }
+    }).then(()=>{
+        redirectToHomepage(req, res)
+        console.log('Successful document add happened')
+    })
+})
+
+app.put("/update", async (req, res)=>{
+    renderPageFromHandlebars(req, res, async ()=>{
+        const docFound = await db.collection("pets").find({_id: ObjectId(req.query.id)});
+        if ( docFound ) {
+            await db.collection("pets").updateOne({_id: ObjectId(req.query.id)}, {
+                $set: {
+                    name: req.body.name,
+                    species: req.body.species,
+                    age: req.body.age
+                }
+            });
+        }
+    }).then(()=>{
+        redirectToHomepage(req, res);
+        console.log('Successful document update happened')
+    })
 })
 
 app.delete("/delete", async (req, res)=>{
+    renderPageFromHandlebars(req, res, async ()=>{
+        await db.collection("pets").deleteOne({_id: ObjectId(req.query.id)});
+        redirectToHomepage(req, res)
+    }).then(()=>console.log('Successful delete happened'))
+})
+
+
+async function renderPageFromHandlebars(req, res, callback) {
     try {
-        console.log('delete happened')
+        const pets = await db.collection("pets").find().toArray();
+        callback(pets)
     } catch (err) {
         console.log('Error occurred:', err)
     }
-})
+}
+
+function redirectToHomepage(req, res) {
+    req.method = 'GET';
+    res.redirect('/');
+}
+
 module.exports = app;
 
